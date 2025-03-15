@@ -1,20 +1,45 @@
-# Auth Service
+# Auth-service
 
-## How to contribute
+## Настройки проекта
+
+### Общие настройки
+  - Версия JVM: `17`
+  - Проект запускается по адресу http://localhost:8080
+
+### Как запустить
 
 ```
-git pull https://github.com/ITMO-mobile-dev/auth-service.git
-git switch -c dev-task-{number}
-git add .
-git commit -m "... Task #{number}"
-git push origin dev-task-{number}
+docker compose build
+docker compose up -d
 ```
-Create your Pull Request via GitHub UI
 
-## How not to spam commits during code review
-Fix problems
- ```
-git add .
-git commit --amend
-git push -f origin dev-task-{number}
-```
+
+### Рабочие URL
+
+  - GET: `http://localhost:8080/health` - возвращает OK (защищенный запрос, требуется jwt)
+
+  - POST: `http://localhost:8080/register` - создание нового пользователя (при отправке запроса необходимо передать параметры `login` и `password`, советую использовать Postman)
+
+  - POST: `http://localhost:8080/login` - авторизация, проверка на соотвествие логина и пароля (при отправке запроса необходимо передать параметры `login` и `password`, советую использовать Postman)
+
+
+### 1. PostgreSQL
+  - Ссылка для подключения к Postgres:
+  `jdbc:postgresql://localhost:5432/ITMO-mobile`
+  - Название БД: `ITMO-mobile`
+  - Порт: `5432`
+  - Имя пользователя: `postgres`
+  - Пароль: `123`
+
+### 2. Redis
+  - ссылка для подключения к Redis: `redis://localhost:6379` (используется внутри программы)
+
+### 3. Kafka
+  - порт Zookeeper\`a: `2181`
+  - порт консьюмера и продюсера: `9092`
+
+
+
+
+
+
