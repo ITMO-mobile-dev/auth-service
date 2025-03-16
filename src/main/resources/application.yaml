@@ -1,0 +1,23 @@
+ktor:
+  application:
+    modules:
+      - auth.ApplicationKt.module
+  deployment:
+    port: 8080
+
+db:
+  url: "jdbc:postgresql://postgres:5432/mydb"
+  user: "postgres"
+  password: "secret"
+
+
+security:
+  pepper: "MY_SUPER_SECRET_PEPPER"
+
+jwt:
+  domain: "https://jwt-provider-domain/"
+  audience: "jwt-audience"
+  realm: "ktor sample app"
+  rsa:
+    public-key-path: "publicKey.pem"
+    private-key-path: "privateKey.pem"
