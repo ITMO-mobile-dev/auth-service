@@ -1,33 +1,31 @@
-# ------ STAGE 1: BUILD ------
-FROM eclipse-temurin:17-jdk AS build
+# ------------------ СТАДИЯ 1: Сборка ------------------
+FROM eclipse-temurin:22-jdk AS build
 
 WORKDIR /app
 
 COPY gradle.properties .
-
-# Копируем Gradle-скрипты и исходники
 COPY gradlew .
 COPY gradlew.bat .
-COPY gradle gradle
+COPY gradle/ ./gradle/
+
 COPY build.gradle.kts .
 COPY settings.gradle.kts .
-COPY src ./src
 
 RUN chmod +x gradlew
 
-# Запускаем сборку Ktor-приложения
+RUN ./gradlew --no-daemon dependencies
+
+COPY src/ ./src/
+
 RUN ./gradlew installDist --no-daemon
 
-# ------ STAGE 2: RUNTIME ------
-FROM eclipse-temurin:17-jre
+# ------------------ СТАДИЯ 2: Рантайм ------------------
+FROM eclipse-temurin:22-jre
+
 WORKDIR /app
 
-# Копируем результат сборки из build-образа
-COPY --from=build /app/build/install /app/
+COPY --from=build /app/build/install/auth-service/ /app/
 
-# Открываем порт для Ktor (если нужно)
 EXPOSE 8080
 
-# Запускаем приложение. 
-# Предположим, имя папки приложения - "auth" (зависит от вашего group/name проекта)
-ENTRYPOINT ["/app/auth-service/bin/auth-service"]
+ENTRYPOINT ["/app/bin/auth-service"]

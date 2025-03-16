@@ -1,20 +1,21 @@
 version: '3.9'
+
 services:
   auth-service:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: auth-service
-    # Запустится Dockerfile из текущей директории (где он лежит).
     ports:
       - "8080:8080"
     environment:
-      # Задаём переменные окружения,
-      # которые ваше приложение сможет читать.
+      # Пример переменных окружения, необходимых вашему приложению
       DB_URL: "jdbc:postgresql://postgres:5432/mydb"
       DB_USER: "postgres"
       DB_PASSWORD: "secret"
-
     depends_on:
       - postgres
+    restart: on-failure
 
   postgres:
     image: postgres:15
@@ -27,6 +28,7 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    restart: on-failure
 
 volumes:
   pgdata:
