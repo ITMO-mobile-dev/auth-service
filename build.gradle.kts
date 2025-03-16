@@ -1,11 +1,10 @@
-
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktor)
     alias(libs.plugins.kotlin.plugin.serialization)
 }
 
-group = "ru.ifmo"
+group = "auth"
 version = "0.0.1"
 
 application {
